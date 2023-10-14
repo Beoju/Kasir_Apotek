@@ -23,7 +23,7 @@ print tgl
 print waktu
 print namaObat
 print "Total:" 
-print jmlByr
+print jmlBayar
 print "Tunai:" 
 print jmlTunai
 print "Kembali:" 
