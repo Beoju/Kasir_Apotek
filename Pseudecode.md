@@ -16,8 +16,8 @@ print "Masukkan waktu"
 read waktu
 print "Masukkan Nama Obat"
 read namaObat
-jmlByr = jmlBrg*harga
-jmlKembali = jmlTunai-jmlByr
+jmlBayar = jmlBrg*harga
+jmlKembali = jmlTunai-jmlBayar
 print namaToko
 print tgl
 print waktu
