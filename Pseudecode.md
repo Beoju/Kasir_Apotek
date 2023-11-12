@@ -1,6 +1,6 @@
 Algoritma : Kasir_Apotek
 Deklarasi
-jmlBrg harga, jmlBayar, jmlTunai, jmlKembali : int
+jmlBrg,harga, jmlBayar, jmlTunai, jmlKembali : int
 namaToko= Apotek SIB1C, tgl, waktu, namaObat : string
 Deskripsi :
 print "Masukkkan jumlah barang Anda"
