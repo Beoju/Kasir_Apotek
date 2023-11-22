@@ -3,8 +3,11 @@ public class kasir {
     public static void main(String[] args) {
         int jmlObat, harga,total,bayar;
         double diskon;
-        String member;
+        String member,namaObat;
         Scanner sc = new Scanner(System.in);
+        System.out.println("SELAMAT DATANG DI APOTEK SIB 1C");
+        System.out.println("Masukkan nama obat :");
+        namaObat = sc.nextLine();
         System.out.println("Masukkan jumlah obat :");
         jmlObat = sc.nextInt();
         System.out.println("Masukkan harga obat :");
