@@ -15,11 +15,9 @@ public class kasir2 {
         }
 
         // Meminta pengguna memasukkan informasi pembelian
-        System.out.println("\nMasukkan informasi pembelian (nomor_obat jumlah_obat):");
+        System.out.println("\nMasukkan informasi pembelian");
         System.out.print("Nomor obat yang dibeli: ");
         int nomorObat = scanner.nextInt();
-        System.out.print("Jumlah obat yang dibeli: ");
-        int jumlahObat = scanner.nextInt();
 
         // Memeriksa apakah nomor obat valid
         if (nomorObat < 1 || nomorObat > daftarObat.length) {
@@ -27,17 +25,20 @@ public class kasir2 {
             return;
         }
 
+        System.out.print("Jumlah obat yang dibeli: ");
+        int jumlahObat = scanner.nextInt();
+
         // Menghitung total harga obat yang dibeli
-        double totalHarga = hargaObat[nomorObat - 1] * jumlahObat;
+        int totalHarga = hargaObat[nomorObat - 1] * jumlahObat;
 
         // Menampilkan total harga obat yang dibeli
         System.out.println("\nTotal harga obat yang dibeli: Rp" + totalHarga);
 
         // Memeriksa apakah pengguna berhak mendapatkan diskon
+        double diskon = 0;
         if (totalHarga > 200000) {
             System.out.print("Apakah Anda memiliki member? (y/t): ");
             String member = scanner.next();
-            double diskon;
             if (member.equalsIgnoreCase("y")) {
                 diskon = 0.05;
                 totalHarga -= totalHarga * diskon;
@@ -56,10 +57,19 @@ public class kasir2 {
 
         // Menampilkan struk pembelian
         System.out.println("\nStruk Pembelian:");
+        System.out.println("                APOTEK SIB 1C");
+        System.out.println("           Jl. Soekarno Hatta No.9");
+        System.out.println("=============================================");
         System.out.println("Obat: " + daftarObat[nomorObat - 1]);
-        System.out.println("Harga per unit: Rp" + hargaObat[nomorObat - 1]);
-        System.out.println("Jumlah obat: " + jumlahObat);
+        System.out.println("Harga per item: Rp" + hargaObat[nomorObat - 1]);
+        System.out.println(jumlahObat + "item");
+        System.out.println("=============================================");
+        System.out.println("Diskon: " + (diskon * 100) + "%");
         System.out.println("Total Harga: Rp" + totalHarga);
+        System.out.println("=============================================");
+        System.out.println("         BARANG YANG SUDAH DI BELI");
+        System.out.println("         TIDAK DAPAT DIKEMBALIKAN");
+        System.out.println("              TERIMA KASIH");
 
         // Menutup Scanner
         scanner.close();
