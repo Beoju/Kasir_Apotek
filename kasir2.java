@@ -88,10 +88,16 @@ public class kasir2 {
         System.out.println("Total yang harus Anda bayar: Rp" + totalHarga);
 
         // Menampilkan struk pembelian
-        System.out.println("\nStruk Pembelian:");
+        System.out.println("\nStruk Pembelian Apotek SIB 1C");
+    
         for (int i = 0; i < transaksi; i++) {
-            System.out.println(riwayatTransaksi[i]);
-        }
+            System.out.println("Daftar pembelian:" );
+
+        // Menampilkan obat yang terjual dan jumlahnya
+        System.out.println("\nAnalisis Penjualan:");
+        System.out.println("Total Item Terjual: " + totalItemTerjual);
+        System.out.println("Total Penjualan: Rp" + totalPenjualan);
+        System.out.println("Obat yang Terjual:");
 
         // Menampilkan laporan transaksi atau riwayat penjualan
         tampilkanLaporan(riwayatTransaksi, transaksi);
