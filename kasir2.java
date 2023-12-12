@@ -13,40 +13,79 @@ public class kasir2 {
         int transaksi = 0;
 
         // Variabel totalHarga perlu diinisialisasi di luar loop
-        double totalHarga = 0;
+        int totalHarga = 0;
 
         do {
-            // Menampilkan daftar obat
-            System.out.println("Daftar Obat:");
-            for (int i = 0; i < daftarObat.length; i++) {
-                System.out.println((i + 1) + ". " + daftarObat[i] + " - Rp" + hargaObat[i]);
-            }
+            // Meminta pengguna memilih menu
+            System.out.println("\nPilih menu:\n1. Beli obat\n2. Cek harga obat\n3. Selesai");
+            System.out.print("Masukkan pilihan Anda (1/2/3): ");
+            int menuChoice = scanner.nextInt();
 
-            // Meminta pengguna memasukkan informasi pembelian
-            System.out.println("\nMasukkan informasi pembelian (nomor_obat jumlah_obat):");
-            System.out.print("Nomor obat yang dibeli: ");
-            int nomorObat = scanner.nextInt();
+            switch (menuChoice) {
+                case 1:
+                boolean tambahItem;
+                    tambahItem = true;
+                    while (tambahItem) {
+                        // Menampilkan daftar obat
+                        System.out.println("Daftar Obat:");
+                        for (int i = 0; i < daftarObat.length; i++) {
+                            System.out.println((i + 1) + ". " + daftarObat[i] + " - Rp" + hargaObat[i]);
+                        }
 
-            // Memeriksa apakah nomor obat valid
-            if (nomorObat < 1 || nomorObat > daftarObat.length) {
-                System.out.println("Nomor obat tidak valid.");
+                        // Meminta pengguna memasukkan nomor obat yang akan dibeli
+                        System.out.print("Nomor obat yang dibeli: ");
+                        int nomorObat = scanner.nextInt();
+
+                        // Memeriksa apakah nomor obat valid
+                        if (nomorObat < 1 || nomorObat > daftarObat.length) {
+                            System.out.println("Nomor obat tidak valid.");
+                            break;
+                        }
+
+                        System.out.print("Jumlah obat yang dibeli: ");
+                        int jumlahObat = scanner.nextInt();
+
+                        // Menambahkan informasi pembelian ke riwayatTransaksi
+                        riwayatTransaksi[transaksi] = "Obat: " + daftarObat[nomorObat - 1] +
+                                ", Jumlah: " + jumlahObat +
+                                ", Total Harga: Rp" + (hargaObat[nomorObat - 1] * jumlahObat);
+                        transaksi++;
+
+                        // Menambahkan totalHarga berdasarkan informasi pembelian
+                        totalHarga += hargaObat[nomorObat - 1] * jumlahObat;
+
+                        // Menanyakan apakah pengguna ingin menambah item lagi
+                        System.out.print("\nApakah Anda ingin menambah item lagi? (y/t): ");
+                        String jawaban = scanner.next();
+                        if (!jawaban.equalsIgnoreCase("y")) {
+                            tambahItem = false;
+                        }
+                    }
+                    break;
+                case 2:
+                // Meminta pengguna memasukkan nomor obat untuk cek harga
+                System.out.print("Masukkan nomor obat untuk cek harga: ");
+                int nomorObatCek = scanner.nextInt();
+
+                // Memeriksa apakah nomor obat valid untuk cek harga
+                if (nomorObatCek < 1 || nomorObatCek > daftarObat.length) {
+                    System.out.println("Nomor obat tidak valid.");
+                    break;
+                }
+
+                // Menampilkan harga obat berdasarkan nomor obat yang dipilih
+                System.out.println("Harga " + daftarObat[nomorObatCek - 1] + ": Rp" + hargaObat[nomorObatCek - 1]);
+                break;
+                case 3:
+                // Keluar dari loop jika pengguna memilih selesai
+                System.out.println("Terima kasih telah menggunakan layanan kami.");
                 return;
-            }
+            default:
+                System.out.println("Pilihan tidak valid.");
+                break;
+           }
 
-            System.out.print("Jumlah obat yang dibeli: ");
-            int jumlahObat = scanner.nextInt();
-
-            // Menambahkan informasi pembelian ke riwayatTransaksi
-            riwayatTransaksi[transaksi] = "Obat: " + daftarObat[nomorObat - 1] +
-                    ", Jumlah: " + jumlahObat +
-                    ", Total Harga: Rp" + (hargaObat[nomorObat - 1] * jumlahObat);
-            transaksi++;
-
-            // Menambahkan totalHarga berdasarkan informasi pembelian
-            totalHarga += hargaObat[nomorObat - 1] * jumlahObat;
-
-            // Menanyakan apakah pengguna ingin menambah item lagi
-            System.out.print("\nApakah Anda ingin menambah item lagi? (y/t): ");
+           System.out.print("\nApakah Anda ingin melanjutkan? (y/t): ");
         } while (scanner.next().equalsIgnoreCase("y"));
 
         // Memeriksa apakah pengguna berhak mendapatkan diskon
