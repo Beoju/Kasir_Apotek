@@ -15,6 +15,13 @@ public class kasir2 {
         // Variabel totalHarga perlu diinisialisasi di luar loop
         int totalHarga = 0;
 
+        // Variabel untuk analisis penjualan
+        int totalItemTerjual = 0;
+        double totalPenjualan= 0;
+
+        // Variabel untuk menyimpan obat yang terjual
+        String obatTerjual = new String();
+
         do {
             // Meminta pengguna memilih menu
             System.out.println("\nPilih menu:\n1. Beli obat\n2. Cek harga obat\n3. Selesai");
@@ -84,8 +91,8 @@ public class kasir2 {
                 System.out.println("Pilihan tidak valid.");
                 break;
            }
-
-           System.out.print("\nApakah Anda ingin melanjutkan? (y/t): ");
+            // Menanyakan apakah pengguna ingin menambah item lagi
+            System.out.print("\nApakah Anda ingin menambah item lagi? (y/t): ");
         } while (scanner.next().equalsIgnoreCase("y"));
 
         // Memeriksa apakah pengguna berhak mendapatkan diskon
@@ -120,12 +127,19 @@ public class kasir2 {
         // Menampilkan laporan transaksi atau riwayat penjualan
         tampilkanLaporan(riwayatTransaksi, transaksi);
 
+        // Menampilkan total item terjual dan total penjualan
+        System.out.println("\nAnalisis Penjualan: ");
+        System.out.println("Obat yang terjual: " + obatTerjual);
+        System.out.println("Total Item Terjual: " + totalItemTerjual);
+        System.out.println("Total Penjualan: Rp" + totalPenjualan );
+
+
         // Menutup Scanner
         scanner.close();
     }
 
     // Fungsi untuk menampilkan laporan riwayat transaksi
-    private static void tampilkanLaporan(String[] riwayatTransaksi, int jumlahTransaksi) {
+    public static void tampilkanLaporan(String[] riwayatTransaksi, int jumlahTransaksi) {
         System.out.println("\nLaporan Transaksi:");
 
         for (int i = 0; i < jumlahTransaksi; i++) {
