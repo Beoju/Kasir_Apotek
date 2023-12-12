@@ -18,9 +18,10 @@ public class kasir2 {
         // Variabel untuk analisis penjualan
         int totalItemTerjual = 0;
         double totalPenjualan= 0;
+        String obatTerjual = "";
 
-        // Variabel untuk menyimpan obat yang terjual
-        String obatTerjual = new String();
+        // // Variabel untuk menyimpan obat yang terjual
+        // String obatTerjual = new String();
 
         do {
             // Meminta pengguna memilih menu
@@ -37,7 +38,7 @@ public class kasir2 {
                         System.out.println("Daftar Obat:");
                         for (int i = 0; i < daftarObat.length; i++) {
                             System.out.println((i + 1) + ". " + daftarObat[i] + " - Rp" + hargaObat[i]);
-                        }
+                        }         
 
                         // Meminta pengguna memasukkan nomor obat yang akan dibeli
                         System.out.print("Nomor obat yang dibeli: ");
@@ -58,14 +59,25 @@ public class kasir2 {
                                 ", Total Harga: Rp" + (hargaObat[nomorObat - 1] * jumlahObat);
                         transaksi++;
 
+                        // Menyimpan informasi obat yang terjual
+                        if (!obatTerjual.equals("")) {
+                             obatTerjual += ", ";
+                        }
+                        obatTerjual += daftarObat[nomorObat - 1];
+
                         // Menambahkan totalHarga berdasarkan informasi pembelian
                         totalHarga += hargaObat[nomorObat - 1] * jumlahObat;
+
+                        // Menambah total item terjual dan total penjualan
+                        totalItemTerjual += jumlahObat;
+                        totalPenjualan += hargaObat[nomorObat - 1] * jumlahObat;
 
                         // Menanyakan apakah pengguna ingin menambah item lagi
                         System.out.print("\nApakah Anda ingin menambah item lagi? (y/t): ");
                         String jawaban = scanner.next();
                         if (!jawaban.equalsIgnoreCase("y")) {
                             tambahItem = false;
+                            break;
                         }
                     }
                     break;
