@@ -104,7 +104,7 @@ public class kasir2 {
                 break;
            }
             // Menanyakan apakah pengguna ingin menambah item lagi
-            System.out.print("\nApakah Anda ingin menambah item lagi? (y/t): ");
+            System.out.print("\nApakah Anda ingin kembali ke menu sebelumnya? (y/t): ");
         } while (scanner.next().equalsIgnoreCase("y"));
 
         // Memeriksa apakah pengguna berhak mendapatkan diskon
@@ -132,8 +132,8 @@ public class kasir2 {
 
         // Menampilkan struk pembelian
         System.out.println("\nStruk Pembelian:");
-        for (int i = 0; i < transaksi; i++) {
-            System.out.println(riwayatTransaksi[i]);
+            for (int i = 0; i < transaksi; i++) {
+                System.out.println(riwayatTransaksi[i]);
         }
 
         // Menampilkan laporan transaksi atau riwayat penjualan
@@ -144,6 +144,8 @@ public class kasir2 {
         System.out.println("Obat yang terjual: " + obatTerjual);
         System.out.println("Total Item Terjual: " + totalItemTerjual);
         System.out.println("Total Penjualan: Rp" + totalPenjualan );
+        System.out.println("\nStruk Pembelian:");
+        cetakStrukPembelian(riwayatTransaksi, transaksi);
 
 
         // Menutup Scanner
@@ -158,4 +160,17 @@ public class kasir2 {
             System.out.println("Transaksi ke-" + (i + 1) + ": " + riwayatTransaksi[i]);
         }
     }
+    public static void cetakStrukPembelian(String[] riwayatTransaksi, int jumlahTransaksi) {
+        System.out.println("================================");
+        System.out.println("        Struk Pembelian");
+        System.out.println("================================");
+
+        for (int i = 0; i < jumlahTransaksi; i++) {
+            System.out.println(riwayatTransaksi[i]);
+        }
+
+        System.out.println("================================");
+    }
+    
+    
 }
