@@ -15,6 +15,13 @@ public class kasir2 {
         // Variabel totalHarga perlu diinisialisasi di luar loop
         double totalHarga = 0;
 
+        // Variabel untuk analisis penjualan
+        int totalItemTerjual = 0;
+        double totalPenjualan= 0;
+
+        // Variabel untuk menyimpan obat yang terjual
+        String obatTerjual = new String();
+
         do {
             // Menampilkan daftar obat
             System.out.println("Daftar Obat:");
@@ -44,6 +51,14 @@ public class kasir2 {
 
             // Menambahkan totalHarga berdasarkan informasi pembelian
             totalHarga += hargaObat[nomorObat - 1] * jumlahObat;
+            
+            //Menambahkan totalItemTerjual dan totalPenjualan
+            totalItemTerjual += jumlahObat;
+            totalPenjualan += hargaObat[nomorObat - 1] * jumlahObat;
+
+            // Menambahkan obat ke daftar obat yang terjual
+            obatTerjual += daftarObat[nomorObat - 1] + ", ";
+
 
             // Menanyakan apakah pengguna ingin menambah item lagi
             System.out.print("\nApakah Anda ingin menambah item lagi? (y/t): ");
@@ -81,12 +96,19 @@ public class kasir2 {
         // Menampilkan laporan transaksi atau riwayat penjualan
         tampilkanLaporan(riwayatTransaksi, transaksi);
 
+        // Menampilkan total item terjual dan total penjualan
+        System.out.println("\nAnalisis Penjualan: ");
+        System.out.println("Obat yang terjual: " + daftarObat);
+        System.out.println("Total Item Terjual: " + totalItemTerjual);
+        System.out.println("Total Penjualan: Rp" + totalPenjualan );
+
+
         // Menutup Scanner
         scanner.close();
     }
 
     // Fungsi untuk menampilkan laporan riwayat transaksi
-    private static void tampilkanLaporan(String[] riwayatTransaksi, int jumlahTransaksi) {
+    public static void tampilkanLaporan(String[] riwayatTransaksi, int jumlahTransaksi) {
         System.out.println("\nLaporan Transaksi:");
 
         for (int i = 0; i < jumlahTransaksi; i++) {
