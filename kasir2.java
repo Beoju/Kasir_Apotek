@@ -20,9 +20,6 @@ public class kasir2 {
         double totalPenjualan= 0;
         String obatTerjual = "";
 
-        // // Variabel untuk menyimpan obat yang terjual
-        // String obatTerjual = new String();
-
         do {
             // Meminta pengguna memilih menu
             System.out.println("\nPilih menu:\n1. Beli obat\n2. Cek harga obat\n3. Selesai");
@@ -76,7 +73,7 @@ public class kasir2 {
                         System.out.print("\nApakah Anda ingin menambah item lagi? (y/t): ");
                         String jawaban = scanner.next();
                         if (!jawaban.equalsIgnoreCase("y")) {
-                            tambahItem = false;
+                            tambahItem = false; 
                             break;
                         }
                     }
@@ -104,7 +101,7 @@ public class kasir2 {
                 break;
            }
             // Menanyakan apakah pengguna ingin menambah item lagi
-            System.out.print("\nApakah Anda ingin menambah item lagi? (y/t): ");
+            System.out.print("\nApakah Anda ingin melanjutkan transaksi? (y/t): ");
         } while (scanner.next().equalsIgnoreCase("y"));
 
         // Memeriksa apakah pengguna berhak mendapatkan diskon
@@ -157,5 +154,6 @@ public class kasir2 {
         for (int i = 0; i < jumlahTransaksi; i++) {
             System.out.println("Transaksi ke-" + (i + 1) + ": " + riwayatTransaksi[i]);
         }
+    
     }
 }
