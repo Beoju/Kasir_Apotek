@@ -56,9 +56,9 @@ public class kasir2 {
 
                         int hargaSatuan = hargaObat[nomorObat - 1];
                         int totalHargaObat = hargaSatuan * jumlahObat;
-                        strukPembelian += "Obat         : " + daftarObat[nomorObat - 1] + "\n" +
-                                          "Jumlah item  : " + jumlahObat + "\n" +
-                                          "Total        : Rp" + totalHargaObat + "\n";
+                        strukPembelian += "Obat            : " + daftarObat[nomorObat - 1] + "\n" +
+                                          "Jumlah item     : " + jumlahObat + "\n" +
+                                          "Total           : Rp" + totalHargaObat + "\n";
 
                         // Menambahkan informasi pembelian ke riwayatTransaksi
                         riwayatTransaksi[transaksi] = "Obat: " + daftarObat[nomorObat - 1] +
@@ -146,10 +146,9 @@ public class kasir2 {
 
             totalPembelian -= totalPembelian * diskon;
         } else {
-            System.out.println("Maaf, Anda tidak mendapatkan diskon.");
+            // System.out.println("Maaf, Anda tidak mendapatkan diskon.");
         }
 
-        System.out.println("Total pembelian: Rp" + totalPembelian);
         System.out.print("Total bayar: Rp");
         totalBayar = scanner.nextInt();
 
@@ -167,9 +166,10 @@ public class kasir2 {
         System.out.println("================================");
         System.out.println(strukPembelian);
         System.out.println("================================");
-        System.out.println("Diskon       :" + (diskon * 100)+ "%" );
-        System.out.println("Total bayar  : Rp" + totalBayar);
-        System.out.println("Kembalian    : Rp" + (totalBayar - totalPembelian));
+        System.out.println("Total pembelian : " + totalPembelian);
+        System.out.println("Diskon          : " + (diskon * 100) + "%" );
+        System.out.println("Total bayar     : Rp" + totalBayar);
+        System.out.println("Kembalian       : Rp" + (totalBayar - totalPembelian));
         System.out.println("================================");
         System.out.println("            THANK YOU");
         System.out.println("       STAY HEALTHY & HAPPY");
