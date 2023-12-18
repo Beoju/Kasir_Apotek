@@ -20,26 +20,49 @@ public class kasir2 {
         double totalPenjualan= 0;
         String obatTerjual = "";
 
-        // // Variabel untuk menyimpan obat yang terjual
-        // String obatTerjual = new String();
-
         do {
             // Meminta pengguna memilih menu
-            System.out.println("\nPilih menu:\n1. Beli obat\n2. Cek harga obat\n3. Selesai");
+            System.out.println("\nPilih menu:\n1. Kasir\n2. Manajer\n3. Selesai");
             System.out.print("Masukkan pilihan Anda (1/2/3): ");
             int menuChoice = scanner.nextInt();
-
+        
             switch (menuChoice) {
                 case 1:
-                boolean tambahItem;
-                    tambahItem = true;
-                    while (tambahItem) {
+                // Fungsi untuk menu Kasir 
+                menuKasir(scanner, daftarObat, hargaObat, riwayatTransaksi);
+                break;
+                case 2:
+                // Fungsi untuk menu Admin
+                menuAdmin (riwayatTransaksi, transaksi, totalItemTerjual, totalPenjualan);
+                break;
+                case 3:
+                // Keluar dari loop jika pengguna memilih selesai
+                System.out.println("Terima kasih telah menggunakan layanan kami.");
+                return;
+                default:
+                System.out.println("Pilihan tidak valid");
+                break;
+            }
+
+            // Menanyakan apakah pengguna ingin melanjutkan
+            System.out.println("\nApakah Anda ingin melanjutkan? (y/t): ");
+        }while (scanner.next().equalsIgnoreCase("y"));
+            
+        // Menutup Scanner
+        scanner.close();
+    }
+
+    // Fungsi untuk menu Kasir
+    public static void menuKasir(Scanner scanner, String[] daftarObat, int[] hargaObat, String[] riwayatTransaksi, int transaksi, int totalHarga, int totalItemTerjual, double totalPenjualan, String obatTerjual) {
+        boolean tambahItem = true;
+    
+            while (tambahItem) {
                         // Menampilkan daftar obat
                         System.out.println("Daftar Obat:");
                         for (int i = 0; i < daftarObat.length; i++) {
                             System.out.println((i + 1) + ". " + daftarObat[i] + " - Rp" + hargaObat[i]);
                         }         
-
+                    
                         // Meminta pengguna memasukkan nomor obat yang akan dibeli
                         System.out.print("Nomor obat yang dibeli: ");
                         int nomorObat = scanner.nextInt();
@@ -81,7 +104,7 @@ public class kasir2 {
                         }
                     }
                     break;
-                case 2:
+                
                 // Meminta pengguna memasukkan nomor obat untuk cek harga
                 System.out.print("Masukkan nomor obat untuk cek harga: ");
                 int nomorObatCek = scanner.nextInt();
@@ -95,14 +118,8 @@ public class kasir2 {
                 // Menampilkan harga obat berdasarkan nomor obat yang dipilih
                 System.out.println("Harga " + daftarObat[nomorObatCek - 1] + ": Rp" + hargaObat[nomorObatCek - 1]);
                 break;
-                case 3:
-                // Keluar dari loop jika pengguna memilih selesai
-                System.out.println("Terima kasih telah menggunakan layanan kami.");
-                return;
-            default:
-                System.out.println("Pilihan tidak valid.");
-                break;
            }
+
             // Menanyakan apakah pengguna ingin menambah item lagi
             System.out.print("\nApakah Anda ingin menambah item lagi? (y/t): ");
         } while (scanner.next().equalsIgnoreCase("y"));
@@ -132,15 +149,48 @@ public class kasir2 {
 
         // Menampilkan struk pembelian
         System.out.println("\nStruk Pembelian Apotek SIB 1C");
-    
-        for (int i = 0; i < transaksi; i++) {
-            System.out.println("Daftar pembelian:" );
+        
+        // Menampilkan tanggal
+        System.out.print("Tanggal: ");
+        String tanggal = scanner.next();
+        System.out.println("===============================");
+        // Menampilkan daftar obat untuk pilihan pengguna
+System.out.println("Daftar Obat:");
+for (int i = 0; i < daftarObat.length; i++) {
+    System.out.println((i + 1) + ". " + daftarObat[i] + " - Rp" + hargaObat[i]);
+}
+do{
+// Meminta pengguna memasukkan nomor obat yang akan dibeli
+System.out.print("Nomor obat yang dibeli: ");
+int nomorObat = scanner.nextInt();
+
+// Memeriksa apakah nomor obat valid
+if (nomorObat < 1 || nomorObat > daftarObat.length) {
+    System.out.println("Nomor obat tidak valid.");
+    return;
+}
+// Meminta pengguna memasukkan jumlah obat yang dibeli
+System.out.print("Jumlah obat yang dibeli: ");
+int jumlahObat = scanner.nextInt();
+
+// Fungsi untuk menu Admin
+    public static void menuAdmin(String[] riwayatTransaksi, int transaksi, int totalItemTerjual, double totalPenjualan) {
+        // Menampilkan riwayat transaksi
+        tampilkanLaporan(riwayatTransaksi, transaksi);
+
+
+// Menampilkan informasi pembelian pada struk
+System.out.println("===============================");
+System.out.println("Obat: " + daftarObat[nomorObat - 1]);
+System.out.println("Jumlah: " + jumlahObat);
+System.out.println("Total Harga: Rp" + (hargaObat[nomorObat - 1] * jumlahObat));
+System.out.println("------------------------------");
 
         // Menampilkan obat yang terjual dan jumlahnya
         System.out.println("\nAnalisis Penjualan:");
         System.out.println("Total Item Terjual: " + totalItemTerjual);
         System.out.println("Total Penjualan: Rp" + totalPenjualan);
-        System.out.println("Obat yang Terjual:");
+        System.out.println("Obat yang Terjual:" + obatTerjual);
 
         // Menampilkan laporan transaksi atau riwayat penjualan
         tampilkanLaporan(riwayatTransaksi, transaksi);
