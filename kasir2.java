@@ -22,6 +22,11 @@ public class kasir2 {
         String strukPembelian = "";
         double diskon = 0.0;
         int totalBayar;
+        int bulan = 0;
+        int tanggal = 0;
+
+        int[] penjualanHarian = new int[31]; // Misalnya, menyimpan penjualan untuk 31 hari
+        int[] penjualanBulanan = new int[12]; // Misalnya, menyimpan penjualan untuk 12 bulan
 
         do {
             // Meminta pengguna memilih menu
@@ -56,9 +61,9 @@ public class kasir2 {
 
                         int hargaSatuan = hargaObat[nomorObat - 1];
                         int totalHargaObat = hargaSatuan * jumlahObat;
-                        strukPembelian += "Obat         : " + daftarObat[nomorObat - 1] + "\n" +
-                                          "Jumlah item  : " + jumlahObat + "\n" +
-                                          "Total        : Rp" + totalHargaObat + "\n";
+                        strukPembelian += "Obat            : " + daftarObat[nomorObat - 1] + "\n" +
+                                          "Jumlah item     : " + jumlahObat + "\n" +
+                                          "Total           : Rp" + totalHargaObat + "\n";
 
                         // Menambahkan informasi pembelian ke riwayatTransaksi
                         riwayatTransaksi[transaksi] = "Obat: " + daftarObat[nomorObat - 1] +
@@ -74,10 +79,14 @@ public class kasir2 {
 
                         // Menambahkan totalHarga berdasarkan informasi pembelian
                         totalHarga += hargaObat[nomorObat - 1] * jumlahObat;
-
+                        
                         // Menambah total item terjual dan total penjualan
                         totalItemTerjual += jumlahObat;
                         totalPenjualan += hargaObat[nomorObat - 1] * jumlahObat;
+                        // penjualanHarian[tanggal - 1] += hargaObat[nomorObat - 1] * jumlahObat;
+
+                        // // Menambah total penjualan bulanan
+                        // penjualanBulanan[bulan - 1] += hargaObat[nomorObat - 1] * jumlahObat;
 
                         // Menanyakan apakah pengguna ingin menambah item lagi
                         System.out.print("\nApakah Anda ingin menambah item lagi? (y/t): ");
@@ -88,6 +97,7 @@ public class kasir2 {
                         }
                     }
                     break;
+
                 case 2:
                     // Meminta pengguna memasukkan nomor obat untuk cek harga
                     System.out.print("Masukkan nomor obat untuk cek harga: ");
@@ -102,6 +112,7 @@ public class kasir2 {
                     // Menampilkan harga obat berdasarkan nomor obat yang dipilih
                     System.out.println("Harga " + daftarObat[nomorObatCek - 1] + ": Rp" + hargaObat[nomorObatCek - 1]);
                     break;
+
                 case 3:
                     // Menampilkan riwayat transaksi
                     System.out.println("\nLaporan Transaksi:");
@@ -113,15 +124,22 @@ public class kasir2 {
                         }
                     }
                     break;
+
                 case 4:
                     System.out.println("\nAnalisis Penjualan: ");
                     System.out.println("Obat yang terjual   : " + obatTerjual);
                     System.out.println("Total Item Terjual  : " + totalItemTerjual);
                     System.out.println("Total Penjualan     : Rp" + totalPenjualan);
+
+                    cetakLaporanHarian(penjualanHarian);
+                    cetakLaporanBulanan(penjualanBulanan);
+                    break;
+
                 case 5:
                     // Keluar dari loop jika pengguna memilih selesai
                     System.out.println("Terima kasih telah menggunakan layanan kami.");
                     return;
+
                 default:
                     System.out.println("Pilihan tidak valid.");
                     break;
@@ -132,7 +150,7 @@ public class kasir2 {
 
         // Hitung total pembelian, total bayar, dan kembalian
         int totalPembelian = totalHarga;
-        if (totalPembelian > 200000) {
+        if (totalPembelian > 50000) {
             System.out.print("Apakah Anda memiliki member? (y/t): ");
             String member = scanner.next();
 
@@ -149,7 +167,6 @@ public class kasir2 {
             System.out.println("Maaf, Anda tidak mendapatkan diskon.");
         }
 
-        System.out.println("Total pembelian: Rp" + totalPembelian);
         System.out.print("Total bayar: Rp");
         totalBayar = scanner.nextInt();
 
@@ -167,13 +184,35 @@ public class kasir2 {
         System.out.println("================================");
         System.out.println(strukPembelian);
         System.out.println("================================");
-        System.out.println("Diskon       :" + (diskon * 100)+ "%" );
-        System.out.println("Total bayar  : Rp" + totalBayar);
-        System.out.println("Kembalian    : Rp" + (totalBayar - totalPembelian));
+        System.out.println("Total pembelian : " + totalPembelian);
+        System.out.println("Diskon          : " + (diskon * 100) + "%" );
+        System.out.println("Total bayar     : Rp" + totalBayar);
+        System.out.println("Kembalian       : Rp" + (totalBayar - totalPembelian));
         System.out.println("================================");
         System.out.println("            THANK YOU");
         System.out.println("       STAY HEALTHY & HAPPY");
         System.out.println("================================");
+       
+    }
+
+    // Metode untuk mencetak laporan harian
+    public static void cetakLaporanHarian(int[] penjualanHarian) {
+        System.out.println("\nLaporan Harian:");
+        for (int i = 0; i < penjualanHarian.length; i++) {
+            if (penjualanHarian[i] > 0) {
+                System.out.println("Hari " + (i + 1) + ": Rp" + penjualanHarian[i]);
+            }
+        }
+    }
+
+    // Metode untuk mencetak laporan bulanan
+    public static void cetakLaporanBulanan(int[] penjualanBulanan) {
+        System.out.println("\nLaporan Bulanan:");
+        for (int i = 0; i < penjualanBulanan.length; i++) {
+            if (penjualanBulanan[i] > 0) {
+                System.out.println("Bulan " + (i + 1) + ": Rp" + penjualanBulanan[i]);
+            }
+        }
     }
 
 }
