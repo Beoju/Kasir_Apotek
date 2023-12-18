@@ -22,29 +22,23 @@ public class kasir2 {
         String strukPembelian = "";
         double diskon = 0.0;
         int totalBayar;
-        int bulan = 0;
-        int tanggal = 0;
-
-        int[] penjualanHarian = new int[31]; // Misalnya, menyimpan penjualan untuk 31 hari
-        int[] penjualanBulanan = new int[12]; // Misalnya, menyimpan penjualan untuk 12 bulan
 
         do {
             // Meminta pengguna memilih menu
-            System.out.println(
-                    "\nPilih menu:\n1. Beli obat\n2. Cek harga obat\n3. Riwayat transaksi\n4. Analisis Penjualan\n5. Selesai");
-            System.out.print("Masukkan pilihan Anda (1/2/3/4/5): ");
+            System.out.println("\nPilih menu:\n1. Beli obat\n2. Cek harga obat\n3. Selesai");
+            System.out.print("Masukkan pilihan Anda (1/2/3): ");
             int menuChoice = scanner.nextInt();
-
+        
             switch (menuChoice) {
                 case 1:
-                    boolean tambahItem;
+                boolean tambahItem;
                     tambahItem = true;
                     while (tambahItem) {
                         // Menampilkan daftar obat
                         System.out.println("Daftar Obat:");
                         for (int i = 0; i < daftarObat.length; i++) {
                             System.out.println((i + 1) + ". " + daftarObat[i] + " - Rp" + hargaObat[i]);
-                        }
+                        }         
 
                         // Meminta pengguna memasukkan nomor obat yang akan dibeli
                         System.out.print("Nomor obat yang dibeli: ");
@@ -99,9 +93,9 @@ public class kasir2 {
                     break;
 
                 case 2:
-                    // Meminta pengguna memasukkan nomor obat untuk cek harga
-                    System.out.print("Masukkan nomor obat untuk cek harga: ");
-                    int nomorObatCek = scanner.nextInt();
+                // Meminta pengguna memasukkan nomor obat untuk cek harga
+                System.out.print("Masukkan nomor obat untuk cek harga: ");
+                int nomorObatCek = scanner.nextInt();
 
                     // Memeriksa apakah nomor obat valid untuk cek harga
                     if (nomorObatCek < 1 || nomorObatCek > daftarObat.length) {
@@ -112,7 +106,6 @@ public class kasir2 {
                     // Menampilkan harga obat berdasarkan nomor obat yang dipilih
                     System.out.println("Harga " + daftarObat[nomorObatCek - 1] + ": Rp" + hargaObat[nomorObatCek - 1]);
                     break;
-
                 case 3:
                     // Menampilkan riwayat transaksi
                     System.out.println("\nLaporan Transaksi:");
@@ -124,22 +117,15 @@ public class kasir2 {
                         }
                     }
                     break;
-
                 case 4:
                     System.out.println("\nAnalisis Penjualan: ");
                     System.out.println("Obat yang terjual   : " + obatTerjual);
                     System.out.println("Total Item Terjual  : " + totalItemTerjual);
                     System.out.println("Total Penjualan     : Rp" + totalPenjualan);
-
-                    cetakLaporanHarian(penjualanHarian);
-                    cetakLaporanBulanan(penjualanBulanan);
-                    break;
-
                 case 5:
                     // Keluar dari loop jika pengguna memilih selesai
                     System.out.println("Terima kasih telah menggunakan layanan kami.");
                     return;
-
                 default:
                     System.out.println("Pilihan tidak valid.");
                     break;
@@ -167,6 +153,7 @@ public class kasir2 {
             System.out.println("Maaf, Anda tidak mendapatkan diskon.");
         }
 
+        System.out.println("Total pembelian: Rp" + totalPembelian);
         System.out.print("Total bayar: Rp");
         totalBayar = scanner.nextInt();
 
