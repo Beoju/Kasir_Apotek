@@ -220,7 +220,7 @@ public class kasir2 {
         System.out.println("Obat yang terjual   : " + obatTerjual);
         System.out.println("Total Item Terjual  : " + totalItemTerjual);
         System.out.println("Total Penjualan     : Rp" + totalPenjualan);
-    }
+    } 
 
     public static void tampilkanRiwayatTransaksi(String[] riwayatTransaksi, int transaksi) {
         System.out.println("\nLaporan Transaksi:");
@@ -242,3 +242,4 @@ public class kasir2 {
         }
     }
 }
+ 
