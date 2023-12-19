@@ -110,13 +110,13 @@ public class kasir2 {
             switch (kasirChoice) {
                 case 1:
                     beliObat(scanner, daftarObat, hargaObat, riwayatTransaksi, transaksi, transaksi, kasirChoice,
-                            stokObat);
+                    stokObat);
                     break;
                 case 2:
                     cekHargaObat(scanner, daftarObat, hargaObat);
                     break;
                 case 3:
-                    cekStokObat(daftarObat, stokObat, kasirChoice);
+                    cekStokObat(daftarObat, stokObat, kasirChoice); 
                 default:
                     System.out.println("Pilihan tidak valid");
                     break;
@@ -191,6 +191,7 @@ public class kasir2 {
             if (!jawaban.equalsIgnoreCase("y")) {
                 tambahItem = false;
             }
+            
         }
 
         // Hitung total pembelian, total bayar, dan kembalian
@@ -211,13 +212,49 @@ public class kasir2 {
         } else {
             System.out.println("Maaf, Anda tidak mendapatkan diskon.");
         }
+        System.out.print("Pilih jenis pembayaran:\n1. Tunai\n2. Non-Tunai\nMasukkan pilihan Anda (1/2): ");
+        int jenisPembayaran = scanner.nextInt();
 
+        switch (jenisPembayaran) {
+        case 1:
+            pembayaranTunai(scanner, totalPembelian, totalHargaPerTransaksi);
+            break;
+        case 2:
+            pembayaranNonTunai(scanner, totalPembelian, totalHargaPerTransaksi);
+            break;
+        default:
+            System.out.println("Pilihan tidak valid. Mohon pilih 1 untuk tunai atau 2 untuk non-tunai.");
+            break;
+    }
         System.out.println("Total pembelian: Rp" + totalPembelian);
         System.out.print("Total bayar: Rp");
         int totalBayar = scanner.nextInt();
 
         // Cetak struk pembelian setelah selesai pembelian obat
         cetakStrukPembelian(obatTerjual, totalHargaPerTransaksi, totalPembelian, totalBayar);
+    }
+    public static void pembayaranTunai(Scanner scanner, int totalPembelian, int totalHarga) {
+        System.out.println("Anda telah memilih pembayaran tunai.");
+        System.out.println("Total Pembelian: Rp" + totalPembelian);
+        System.out.print("Total bayar: Rp");
+        int totalBayar = scanner.nextInt();
+    
+        if (totalBayar < totalPembelian) {
+            System.out.println("Pembayaran kurang. Mohon masukkan jumlah uang yang mencukupi.");
+        } else {
+            int kembalian = totalBayar - totalPembelian;
+            System.out.println("Kembalian: Rp" + kembalian);
+            cetakStrukPembelian(obatTerjual, totalHarga, totalPembelian, totalBayar);
+        }
+    }
+    
+    public static void pembayaranNonTunai(Scanner scanner, int totalPembelian, int totalHarga) {
+        System.out.println("Anda telah memilih pembayaran non-tunai.");
+        System.out.println("Total Pembelian: Rp" + totalPembelian);
+        System.out.print("Masukkan nomor kartu kredit/debit: ");
+        String nomorKartu = scanner.next();
+        // Tambahkan logika untuk pembayaran non-tunai sesuai kebutuhan aplikasi Anda
+        cetakStrukPembelian(obatTerjual, totalHarga, totalPembelian, 0); // Untuk pembayaran non-tunai, total bayar mungkin tidak diperlukan
     }
 
     public static void cekHargaObat(Scanner scanner, String[] daftarObat, int[] hargaObat) {
