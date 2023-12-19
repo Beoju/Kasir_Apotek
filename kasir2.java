@@ -96,7 +96,6 @@ public class kasir2 {
 
             System.out.print("Jumlah obat yang dibeli: ");
             int jumlahObat = scanner.nextInt();
-
             int hargaSatuan = hargaObat[nomorObat - 1];
             int totalHargaObat = hargaSatuan * jumlahObat;
 
@@ -151,7 +150,7 @@ public class kasir2 {
         int totalBayar = scanner.nextInt();
 
         // Cetak struk pembelian setelah selesai pembelian obat
-        cetakStrukPembelian(obatTerjual, totalBayar, totalHargaPerTransaksi);
+        cetakStrukPembelian(obatTerjual, totalHargaPerTransaksi, totalPembelian, totalBayar);
     }
 
     public static void menuManajer(String[] riwayatTransaksi, int transaksi) {
@@ -200,14 +199,16 @@ public class kasir2 {
         System.out.println("Harga " + daftarObat[nomorObatCek - 1] + ": Rp" + hargaObat[nomorObatCek - 1]);
     }
 
-    public static void cetakStrukPembelian(String obat, int jumlahObat, int totalHargaObat) {
+    public static void cetakStrukPembelian(String obat, int jumlahObat, int totalPembelian, int totalBayar) {
         System.out.println("================================");
         System.out.println("        APOTEK SIB 1C");
         System.out.println("    Jl. Soekarno Hatta No.9");
         System.out.println("================================");
         System.out.println("Obat: " + obat);
         System.out.println("Jumlah: " + jumlahObat);
-        System.out.println("Total Harga: Rp" + totalHargaObat);
+        System.out.println("Total Harga: " + totalPembelian);
+        System.out.println("Total Bayar: Rp" + totalBayar);
+        System.out.println("Total Kembalian: " + (totalBayar-totalPembelian));
         System.out.println("================================");
         System.out.println("            THANK YOU");
         System.out.println("       STAY HEALTHY & HAPPY");
