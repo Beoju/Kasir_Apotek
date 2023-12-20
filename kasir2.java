@@ -1,10 +1,20 @@
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class kasir2 {
     public static int totalItemTerjual = 0;
     public static int totalPenjualan = 0;
     public static String obatTerjual = "";
+    private static int[] penjualanHarian = new int [31];
+    private static int[] penjualanBulanan = new int [12];
+    private static LocalDate currentDate = LocalDate.now();
 
+    public static void addTransaksi(String obat, int jumlahObat, int hargaSatuan) {
+        // ...
+        // Update the dailySales and monthlySales arrays
+        penjualanHarian[currentDate.getDayOfMonth() - 1] += totalPenjualan;
+        penjualanBulanan[currentDate.getMonthValue() - 1] += totalPenjualan;
+    }
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -51,6 +61,26 @@ public class kasir2 {
 
         scanner.close();
     }
+      // Fungsi untuk menambah obat baru ke daftar obat dan harga
+    public static String[] tambahObatBaru(String[] daftarObat, int[] hargaObat, String namaObatBaru, int hargaObatBaru) {
+        String[] tempDaftarObat = new String[daftarObat.length + 1];
+        int[] tempHargaObat = new int[hargaObat.length + 1];
+
+        for (int i = 0; i < daftarObat.length; i++) {
+            tempDaftarObat[i] = daftarObat[i];
+            tempHargaObat[i] = hargaObat[i];
+        }
+
+        tempDaftarObat[daftarObat.length] = namaObatBaru;
+        tempHargaObat[hargaObat.length] = hargaObatBaru;
+
+        daftarObat = tempDaftarObat;
+        hargaObat = tempHargaObat;
+
+        addTransaksi(namaObatBaru, 0, hargaObatBaru);
+
+        return daftarObat;
+    }
 
     // Fungsi untuk menampilkan daftar obat beserta harganya dan memungkinkan
     // penambahan obat baru
@@ -81,22 +111,6 @@ public class kasir2 {
         }
     }
 
-    // Fungsi untuk menambah obat baru ke daftar obat dan harga
-    public static void tambahObatBaru(String[] daftarObat, int[] hargaObat, String namaObatBaru, int hargaObatBaru) {
-        String[] tempDaftarObat = new String[daftarObat.length + 1];
-        int[] tempHargaObat = new int[hargaObat.length + 1];
-
-        for (int i = 0; i < daftarObat.length; i++) {
-            tempDaftarObat[i] = daftarObat[i];
-            tempHargaObat[i] = hargaObat[i];
-        }
-
-        tempDaftarObat[daftarObat.length] = namaObatBaru;
-        tempHargaObat[hargaObat.length] = hargaObatBaru;
-
-        daftarObat = tempDaftarObat;
-        hargaObat = tempHargaObat;
-    }
 
     public static void menuKasir(Scanner scanner, String[] daftarObat, int[] hargaObat, String[] riwayatTransaksi,
     int transaksi, int[] stokObat) {
@@ -172,6 +186,8 @@ public class kasir2 {
             // Menambah total item terjual dan total penjualan
             totalItemTerjual += jumlahObat;
             totalPenjualan += hargaObat[nomorObat - 1] * jumlahObat;
+
+            addTransaksi(daftarObat[nomorObat - 1], jumlahObat, hargaObat[nomorObat - 1]);
 
             // Memeriksa apakah stok mencukupi
             if (jumlahObat > stokObat[nomorObat - 1]) {
@@ -295,6 +311,7 @@ public class kasir2 {
         System.out.println("Total Item Terjual  : " + totalItemTerjual);
         System.out.println("Total Penjualan     : Rp" + totalPenjualan);
     }
+    
 
     public static void tampilkanRiwayatTransaksi(String[] riwayatTransaksi, int transaksi) {
         System.out.println("\nLaporan Transaksi:");
@@ -305,15 +322,20 @@ public class kasir2 {
                 System.out.println("================================");
             }
         }
-    }
+        System.out.println("Penjualan Harian: ");
+        for (int i = 0; i < penjualanHarian.length; i++) {
+            if (penjualanHarian[i] > 0) {
+                System.out.println("Day " + (i + 1) + ": Rp" + penjualanHarian[i]);
+            }
+        }
 
-    // Metode untuk mencetak laporan bulanan
-    public static void cetakLaporanBulanan(int[] penjualanBulanan) {
-        System.out.println("\nLaporan Bulanan:");
-        for (int i = 0; i < penjualanBulanan.length; i++) {
+        System.out.println("\nPenjualan Bulanan: ");
+        for (int i = 0; i <penjualanBulanan.length; i++) {
             if (penjualanBulanan[i] > 0) {
-                System.out.println("Bulan " + (i + 1) + ": Rp" + penjualanBulanan[i]);
+                System.out.println("Month " + (i + 1) + ": Rp" + penjualanBulanan[i]);
             }
         }
     }
+
+
 }
