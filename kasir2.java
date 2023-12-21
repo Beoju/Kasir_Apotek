@@ -6,8 +6,8 @@ public class kasir2 {
     public static int totalPenjualan = 0;
     public static String obatTerjual = "";
     // untuk laporan
-    private static int[] penjualanHarian = new int [31];
-    private static int[] penjualanBulanan = new int [12];
+    private static int[] pendapatanHarian = new int[31];
+    private static int[] pendapatanBulanan = new int[12];
     private static LocalDate currentDate = LocalDate.now();
 
     public static void main(String[] args) {
@@ -137,6 +137,7 @@ public class kasir2 {
         boolean tambahItem = true;
         int totalHargaPerTransaksi = 0;
 
+
         while (tambahItem) {
             // Menampilkan daftar obat
             System.out.println("Daftar Obat:");
@@ -187,6 +188,13 @@ public class kasir2 {
             // Update stok setelah pembelian
             stokObat[nomorObat - 1] -= jumlahObat;
 
+            int hariIni = currentDate.getDayOfMonth();
+            pendapatanHarian[hariIni - 1] += totalHarga;
+
+            // Simpan pendapatan bulanan
+            int bulanIni = currentDate.getMonthValue();
+            pendapatanBulanan[bulanIni - 1] += totalHarga;
+
             // Menanyakan apakah pengguna ingin menambah item lagi
             System.out.print("\nApakah Anda ingin menambah item lagi? (y/t): ");
             String jawaban = scanner.next();
@@ -198,7 +206,6 @@ public class kasir2 {
 
         // Hitung total pembelian, total bayar, dan kembalian
         int totalPembelian = totalHarga;
-        
 
         if (totalPembelian > 50000) {
             System.out.print("Masukkan diskon (dalam persen): ");
@@ -225,7 +232,7 @@ public class kasir2 {
                 System.out.println("Pilihan tidak valid. Mohon pilih 1 untuk tunai atau 2 untuk non-tunai.");
                 break;
         }
-}
+    }
 
     // fungsi pembayaran
     public static void pembayaran(Scanner scanner, int jenisPembayaran, int totalPembelian, int totalHarga) {
@@ -288,7 +295,7 @@ public class kasir2 {
                     tampilkanRiwayatTransaksi(riwayatTransaksi, transaksi);
                     break;
                 case 2:
-                    analisisLaporanKeuangan(totalPenjualan);
+                    laporanKeuangan(manajerChoice);
                     break;
                 case 3:
                     kembaliKeMenuSebelumnya = false;
@@ -321,29 +328,52 @@ public class kasir2 {
         System.out.println("================================");
     }
 
-    public static void analisisLaporanKeuangan(int totalPenjualan) {
-        System.out.println("Penjualan Harian: ");
-        for (int i = 0; i < penjualanHarian.length; i++) {
-            if (penjualanHarian[i] > 0) {
-                System.out.println("Day " + (i + 1) + ": Rp" + penjualanHarian[i]);
-            }
+    public static void laporanKeuangan(int totalPenjualan) {
+        Scanner scanner = new Scanner(System.in);
+    boolean kembaliKeMenuSebelumnya = true;
+
+    do {
+        System.out.println("\nPilih menu Analisis Laporan Keuangan:");
+        System.out.println("1. Pendapatan Harian");
+        System.out.println("2. Pendapatan Bulanan");
+        System.out.println("Kembali ke menu sebelumnya");
+        System.out.print("Masukkan pilihan Anda (1/2/3): ");
+        int menuChoice = scanner.nextInt();
+
+        switch (menuChoice) {
+            case 1:
+                tampilkanPendapatanHarian();
+                break;
+            case 2:
+                tampilkanPendapatanBulanan();
+                break;
+            case 3:
+                kembaliKeMenuSebelumnya = false;
+                break;
+            default:
+                System.out.println("Pilihan tidak valid");
+                break;
+        }
+    } while (kembaliKeMenuSebelumnya);
+            
+}
+public static void tampilkanPendapatanHarian() {
+    System.out.println("\nPendapatan Harian: ");
+    for (int i = 0; i < pendapatanHarian.length; i++) {
+        if (pendapatanHarian[i] > 0) {
+            System.out.println("Hari " + (i + 1) + ": Rp" + pendapatanHarian[i]);
         }
     }
-    // Metode untuk mencetak laporan bulanan
-    public static void cetakLaporanBulanan(int[] penjualanBulanan) {
-        System.out.println("\nLaporan Bulanan:");
-        for (int i = 0; i < penjualanBulanan.length; i++) {
-        System.out.println("\nPenjualan Bulanan: ");
-            for (int j = 0; i <penjualanBulanan.length; i++) {
-                if (penjualanBulanan[i] > 0) {
-                System.out.println("Bulan " + (i + 1) + ": Rp" + penjualanBulanan[i]);
-                System.out.println("Month " + (i + 1) + ": Rp" + penjualanBulanan[i]);
-                }
-            }
+}
+
+public static void tampilkanPendapatanBulanan() {
+    System.out.println("\nPendapatan Bulanan: ");
+    for (int i = 0; i < pendapatanBulanan.length; i++) {
+        if (pendapatanBulanan[i] > 0) {
+            System.out.println("Bulan " + (i + 1) + ": Rp" + pendapatanBulanan[i]);
         }
     }
-
-
+}
     public static void tampilkanRiwayatTransaksi(String[] riwayatTransaksi, int transaksi) {
         System.out.println("\nLaporan Transaksi:");
         for (int i = 0; i < transaksi; i++) {
