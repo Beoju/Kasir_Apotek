@@ -5,6 +5,7 @@ public class kasir2 {
     public static int totalItemTerjual = 0;
     public static int totalPenjualan = 0;
     public static String obatTerjual = "";
+   
     // untuk laporan
     private static int[] pendapatanHarian = new int[31];
     private static int[] pendapatanBulanan = new int[12];
@@ -45,8 +46,8 @@ public class kasir2 {
 
         do {
             // Meminta pengguna memilih menu
-            System.out.println("\nPilih menu:\n1. Kasir\n2. Manajer\n3. Selesai");
-            System.out.print("Masukkan pilihan Anda (1/2/3): ");
+            System.out.println("\nPilih menu:\n1. Kasir\n2. Manajer\n3. Cek Stok Obat\n4. Selesai");
+            System.out.print("Masukkan pilihan Anda (1/2/3/4): ");
             int menuChoice = scanner.nextInt();
 
             switch (menuChoice) {
@@ -57,6 +58,9 @@ public class kasir2 {
                     menuManajer(riwayatTransaksi, transaksi);
                     break;
                 case 3:
+                    cekStokObat(daftarObat, stokObat, menuChoice);
+                    break;
+                case 4 :
                     System.out.println("Terima kasih telah menggunakan layanan kami.");
                     return;
                 default:
@@ -121,21 +125,20 @@ public class kasir2 {
         boolean tambahItem = true;
 
         while (tambahItem) {
-            System.out
-                    .println("\nPilih menu Kasir:\n1. Beli Obat\n2. Cek Harga Obat\n3. Cek Stok Obat\n4. Daftar Obat");
+            System.out.println("\nPilih menu Kasir:\n1. Beli Obat\n2. Cek Harga Obat\n3. Cek Stok Obat\n4. Daftar Obat");
             System.out.print("Masukkan pilihan Anda (1/2/3): ");
             int kasirChoice = scanner.nextInt();
 
             switch (kasirChoice) {
                 case 1:
-                    beliObat(scanner, daftarObat, hargaObat, riwayatTransaksi, transaksi, transaksi, kasirChoice,
-                            stokObat);
+                    beliObat(scanner, daftarObat, hargaObat, riwayatTransaksi, transaksi, transaksi, kasirChoice, stokObat, obatTerjual);
                     break;
                 case 2:
                     cekHargaObat(scanner, daftarObat, hargaObat);
                     break;
                 case 3:
                     cekStokObat(daftarObat, stokObat, kasirChoice);
+                    break;
                 case 4:
                     lihatDaftarObat(scanner, daftarObat, hargaObat);
                     break;
@@ -148,10 +151,11 @@ public class kasir2 {
         }
     }
 
-    public static void beliObat(Scanner scanner, String[] daftarObat, int[] hargaObat, String[] riwayatTransaksi,
-            int transaksi, int totalHarga, double diskon, int[] stokObat) {
+    public static void beliObat(Scanner scanner, String[] daftarObat, int[] hargaObat, String[] riwayatTransaksi, int transaksi, int totalHarga, double diskon, int[] stokObat, String obatTerjual) {
         boolean tambahItem = true;
         int totalHargaPerTransaksi = 0;
+        int totalObatTerjual = 0 ;
+        obatTerjual = " ";
 
 
         while (tambahItem) {
@@ -178,9 +182,7 @@ public class kasir2 {
             int totalHargaObat = hargaSatuan * jumlahObat;
 
             // Menambahkan informasi pembelian ke riwayatTransaksi
-            riwayatTransaksi[transaksi] = "Obat: " + daftarObat[nomorObat - 1] +
-                    ", Jumlah: " + jumlahObat +
-                    ", Total Harga: Rp" + totalHargaObat;
+            riwayatTransaksi[transaksi] = "Obat: " + daftarObat[nomorObat - 1] + ", Jumlah: " + jumlahObat + ", Total Harga: Rp" + totalHargaObat;
             transaksi++;
 
             // Menyimpan informasi obat yang terjual
@@ -188,6 +190,7 @@ public class kasir2 {
                 obatTerjual += ", ";
             }
             obatTerjual += daftarObat[nomorObat - 1];
+            totalObatTerjual += jumlahObat;
 
             // Menambahkan totalHarga berdasarkan informasi pembelian
             totalHarga += hargaObat[nomorObat - 1] * jumlahObat;
@@ -216,8 +219,8 @@ public class kasir2 {
             String jawaban = scanner.next();
             if (!jawaban.equalsIgnoreCase("y")) {
                 tambahItem = false;
-            }
-
+             }            
+             
         }
 
         // Hitung total pembelian, total bayar, dan kembalian
@@ -272,6 +275,7 @@ public class kasir2 {
         } else {
             System.out.println("Pilihan tidak valid.");
         }
+        
     }
     
     // fungsi cek harga obat
@@ -290,12 +294,14 @@ public class kasir2 {
         System.out.println("Harga " + daftarObat[nomorObatCek - 1] + ": Rp" + hargaObat[nomorObatCek - 1]);
     }
 
-    public static void cekStokObat(String[] daftarObat, int[] stokObat, int jumlahObat) {
+    public static void cekStokObat(String[] daftarObat, int[] stokObat, int totalItemTerjual) {
         System.out.println("\nStok Obat yang Tersedia:");
         for (int i = 0; i < daftarObat.length; i++) {
             System.out.println(daftarObat[i] + ": " + stokObat[i]);
         }
     }
+
+    
 
     public static void menuManajer(String[] riwayatTransaksi, int transaksi) {
         Scanner scanner = new Scanner(System.in);
