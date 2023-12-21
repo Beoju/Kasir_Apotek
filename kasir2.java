@@ -193,22 +193,16 @@ public class kasir2 {
 
         // Hitung total pembelian, total bayar, dan kembalian
         int totalPembelian = totalHarga;
-        if (totalPembelian > 50000) {
-            System.out.print("Apakah Anda memiliki member? (y/t): ");
-            String member = scanner.next();
+        System.out.print("Masukkan diskon (dalam persen): ");
+        double discon = scanner.nextDouble();
 
-            if (member.equalsIgnoreCase("y")) {
-                diskon = 0.05;
-                System.out.println("Anda mendapatkan diskon sebesar 5%");
-            } else {
-                diskon = 0.02;
-                System.out.println("Anda mendapatkan diskon sebesar 2%");
-            }
-
-            totalPembelian -= totalPembelian * diskon;
+        if (diskon > 0) {
+            System.out.println("Anda mendapatkan diskon sebesar " + discon + "%");
+            totalPembelian -= totalPembelian * (discon / 100);
         } else {
-            System.out.println("Maaf, Anda tidak mendapatkan diskon.");
+            System.out.println("Maaf, diskon tidak valid.");
         }
+
         System.out.print("Pilih jenis pembayaran:\n1. Tunai\n2. Non-Tunai\nMasukkan pilihan Anda (1/2): ");
         int jenisPembayaran = scanner.nextInt();
 
@@ -335,16 +329,6 @@ public class kasir2 {
                 System.out.println("Transaksi ke-" + (i + 1) + ":");
                 System.out.println(riwayatTransaksi[i]);
                 System.out.println("================================");
-            }
-        }
-    }
-
-    // Metode untuk mencetak laporan bulanan
-    public static void cetakLaporanBulanan(int[] penjualanBulanan) {
-        System.out.println("\nLaporan Bulanan:");
-        for (int i = 0; i < penjualanBulanan.length; i++) {
-            if (penjualanBulanan[i] > 0) {
-                System.out.println("Bulan " + (i + 1) + ": Rp" + penjualanBulanan[i]);
             }
         }
     }
