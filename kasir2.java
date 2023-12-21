@@ -1,9 +1,14 @@
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class kasir2 {
     public static int totalItemTerjual = 0;
     public static int totalPenjualan = 0;
     public static String obatTerjual = "";
+    // untuk laporan
+    private static int[] penjualanHarian = new int [31];
+    private static int[] penjualanBulanan = new int [12];
+    private static LocalDate currentDate = LocalDate.now();
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -317,11 +322,27 @@ public class kasir2 {
     }
 
     public static void analisisLaporanKeuangan(int totalPenjualan) {
-        System.out.println("\nAnalisis Penjualan: ");
-        System.out.println("Obat yang terjual   : " + obatTerjual);
-        System.out.println("Total Item Terjual  : " + totalItemTerjual);
-        System.out.println("Total Penjualan     : Rp" + totalPenjualan);
+        System.out.println("Penjualan Harian: ");
+        for (int i = 0; i < penjualanHarian.length; i++) {
+            if (penjualanHarian[i] > 0) {
+                System.out.println("Day " + (i + 1) + ": Rp" + penjualanHarian[i]);
+            }
+        }
     }
+    // Metode untuk mencetak laporan bulanan
+    public static void cetakLaporanBulanan(int[] penjualanBulanan) {
+        System.out.println("\nLaporan Bulanan:");
+        for (int i = 0; i < penjualanBulanan.length; i++) {
+        System.out.println("\nPenjualan Bulanan: ");
+            for (int j = 0; i <penjualanBulanan.length; i++) {
+                if (penjualanBulanan[i] > 0) {
+                System.out.println("Bulan " + (i + 1) + ": Rp" + penjualanBulanan[i]);
+                System.out.println("Month " + (i + 1) + ": Rp" + penjualanBulanan[i]);
+                }
+            }
+        }
+    }
+
 
     public static void tampilkanRiwayatTransaksi(String[] riwayatTransaksi, int transaksi) {
         System.out.println("\nLaporan Transaksi:");
