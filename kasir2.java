@@ -42,7 +42,6 @@ public class kasir2 {
 
         // Variabel totalHarga perlu diinisialisasi di luar loop
         int totalHarga = 0;
-        double diskon = 0.0;
 
         do {
             // Meminta pengguna memilih menu
