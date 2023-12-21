@@ -193,14 +193,15 @@ public class kasir2 {
 
         // Hitung total pembelian, total bayar, dan kembalian
         int totalPembelian = totalHarga;
-        System.out.print("Masukkan diskon (dalam persen): ");
-        double discon = scanner.nextDouble();
+        
 
-        if (diskon > 0) {
+        if (totalPembelian > 50000) {
+            System.out.print("Masukkan diskon (dalam persen): ");
+            double discon = scanner.nextDouble();
             System.out.println("Anda mendapatkan diskon sebesar " + discon + "%");
             totalPembelian -= totalPembelian * (discon / 100);
         } else {
-            System.out.println("Maaf, diskon tidak valid.");
+            System.out.println("Maaf, Anda tidak mendapatkan diskon.");
         }
 
         System.out.print("Pilih jenis pembayaran:\n1. Tunai\n2. Non-Tunai\nMasukkan pilihan Anda (1/2): ");
