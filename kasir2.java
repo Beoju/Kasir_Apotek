@@ -1,9 +1,14 @@
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class kasir2 {
     public static int totalItemTerjual = 0;
     public static int totalPenjualan = 0;
     public static String obatTerjual = "";
+    // untuk laporan
+    private static int[] pendapatanHarian = new int[31];
+    private static int[] pendapatanBulanan = new int[12];
+    private static LocalDate currentDate = LocalDate.now();
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -100,8 +105,7 @@ public class kasir2 {
         boolean tambahItem = true;
 
         while (tambahItem) {
-            System.out
-                    .println("\nPilih menu Kasir:\n1. Beli Obat\n2. Cek Harga Obat\n3. Cek Stok Obat\n4. Daftar Obat");
+            System.out.println("\nPilih menu Kasir:\n1. Beli Obat\n2. Cek Harga Obat\n3. Cek Stok Obat\n4. Daftar Obat");
             System.out.print("Masukkan pilihan Anda (1/2/3): ");
             int kasirChoice = scanner.nextInt();
 
@@ -182,6 +186,13 @@ public class kasir2 {
             // Update stok setelah pembelian
             stokObat[nomorObat - 1] -= jumlahObat;
 
+            int hariIni = currentDate.getDayOfMonth();
+            pendapatanHarian[hariIni - 1] += totalHarga;
+
+            // Simpan pendapatan bulanan
+            int bulanIni = currentDate.getMonthValue();
+            pendapatanBulanan[bulanIni - 1] += totalHarga;
+
             // Menanyakan apakah pengguna ingin menambah item lagi
             System.out.print("\nApakah Anda ingin menambah item lagi? (y/t): ");
             String jawaban = scanner.next();
@@ -194,18 +205,10 @@ public class kasir2 {
         // Hitung total pembelian, total bayar, dan kembalian
         int totalPembelian = totalHarga;
         if (totalPembelian > 50000) {
-            System.out.print("Apakah Anda memiliki member? (y/t): ");
-            String member = scanner.next();
-
-            if (member.equalsIgnoreCase("y")) {
-                diskon = 0.05;
-                System.out.println("Anda mendapatkan diskon sebesar 5%");
-            } else {
-                diskon = 0.02;
-                System.out.println("Anda mendapatkan diskon sebesar 2%");
-            }
-
-            totalPembelian -= totalPembelian * diskon;
+            System.out.print("Masukkan diskon (dalam persen): ");
+            double discon = scanner.nextDouble();
+            System.out.println("Anda mendapatkan diskon sebesar " + discon + "%");
+            totalPembelian -= totalPembelian * (discon / 100);
         } else {
             System.out.println("Maaf, Anda tidak mendapatkan diskon.");
         }
@@ -225,7 +228,7 @@ public class kasir2 {
                 System.out.println("Pilihan tidak valid. Mohon pilih 1 untuk tunai atau 2 untuk non-tunai.");
                 break;
         }
-}
+    }
 
     // fungsi pembayaran
     public static void pembayaran(Scanner scanner, int jenisPembayaran, int totalPembelian, int totalHarga) {
@@ -242,12 +245,14 @@ public class kasir2 {
                 int kembalian = totalBayar - totalPembelian;
                 System.out.println("Kembalian: Rp" + kembalian);
                 cetakStrukPembelian(obatTerjual, totalHarga, totalPembelian, totalBayar);
+                cetakStrukPembelian(obatTerjual, totalItemTerjual, totalPembelian, totalBayar);
             }
         } else if (jenisPembayaran == 2) {
             // Logika untuk pembayaran non-tunai
-            System.out.println("Shopeepay");
-            // Tambahkan logika sesuai kebutuhan aplikasi untuk pembayaran non-tunai
-            cetakStrukPembelian(obatTerjual, totalHarga, totalPembelian, 0); // Untuk pembayaran non-tunai
+            System.out.println("Pembayaran telah dilunasi melalui shopeepay.");
+            cetakStrukPembelian(obatTerjual, totalItemTerjual, totalPembelian, totalPembelian); // Total bayar = Total pembelian = 0
+        } else {
+            System.out.println("Pilihan tidak valid.");
         }
     }
 
@@ -279,8 +284,8 @@ public class kasir2 {
         boolean kembaliKeMenuSebelumnya = true;
 
         do {
-            System.out.println("\nPilih menu Manajer:\n1. Riwayat Transaksi\n2. Analisis Laporan Keuangan");
-            System.out.print("Masukkan pilihan anda (1/2): ");
+            System.out.println("\nPilih menu Manajer:\n1. Riwayat Transaksi\n2. Analisis Laporan Keuangan\n3. Menu sebelumnya");
+            System.out.print("Masukkan pilihan anda (1/2/3): ");
             int manajerChoice = scanner.nextInt();
 
             switch (manajerChoice) {
@@ -288,12 +293,11 @@ public class kasir2 {
                     tampilkanRiwayatTransaksi(riwayatTransaksi, transaksi);
                     break;
                 case 2:
-                    analisisLaporanKeuangan(totalPenjualan);
+                    laporanKeuangan();
                     break;
                 case 3:
                     kembaliKeMenuSebelumnya = false;
                 default:
-                    System.out.println("Pilihan tidak valid");
                     break;
             }
             // Menanyakan apakah pengguna ingin kembali ke menu sebelumnya
@@ -305,28 +309,7 @@ public class kasir2 {
 
     }
 
-    public static void cetakStrukPembelian(String obat, int jumlahObat, int totalPembelian, int totalBayar) {
-        System.out.println("================================");
-        System.out.println("        APOTEK SIB 1C");
-        System.out.println("    Jl. Soekarno Hatta No.9");
-        System.out.println("================================");
-        System.out.println("Obat: " + obat);
-        System.out.println("Jumlah: " + jumlahObat);
-        System.out.println("Total Harga: " + totalPembelian);
-        System.out.println("Total Bayar: Rp" + totalBayar);
-        System.out.println("Total Kembalian: " + (totalBayar - totalPembelian));
-        System.out.println("================================");
-        System.out.println("            THANK YOU");
-        System.out.println("       STAY HEALTHY & HAPPY");
-        System.out.println("================================");
-    }
-
-    public static void analisisLaporanKeuangan(int totalPenjualan) {
-        System.out.println("\nAnalisis Penjualan: ");
-        System.out.println("Obat yang terjual   : " + obatTerjual);
-        System.out.println("Total Item Terjual  : " + totalItemTerjual);
-        System.out.println("Total Penjualan     : Rp" + totalPenjualan);
-    }
+    
 
     public static void tampilkanRiwayatTransaksi(String[] riwayatTransaksi, int transaksi) {
         System.out.println("\nLaporan Transaksi:");
@@ -339,13 +322,62 @@ public class kasir2 {
         }
     }
 
-    // Metode untuk mencetak laporan bulanan
-    public static void cetakLaporanBulanan(int[] penjualanBulanan) {
-        System.out.println("\nLaporan Bulanan:");
-        for (int i = 0; i < penjualanBulanan.length; i++) {
-            if (penjualanBulanan[i] > 0) {
-                System.out.println("Bulan " + (i + 1) + ": Rp" + penjualanBulanan[i]);
+    // Metode untuk mencetak laporan keuangan
+    public static void laporanKeuangan() {
+        Scanner scanner = new Scanner(System.in);
+        boolean kembaliKeMenuSebelumnya = true;
+    
+        do {
+            System.out.println("\nPilih menu Analisis Laporan Keuangan:");
+            System.out.println("1. Pendapatan Harian");
+            System.out.println("2. Pendapatan Bulanan");
+            System.out.println("3. Menu sebelumnya");
+            System.out.print("Masukkan pilihan Anda (1/2/3): ");
+            int menuChoice = scanner.nextInt();
+    
+            switch (menuChoice) {
+                case 1:
+                    tampilkanPendapatanHarian();
+                    break;
+                case 2:
+                    tampilkanPendapatanBulanan();
+                    break;
+                case 3:
+                    kembaliKeMenuSebelumnya = false;
+                    break;
+                default:
+                    System.out.println("Pilihan tidak valid");
+                    break;
+            }
+        } while (kembaliKeMenuSebelumnya);
+    }
+    
+    public static void tampilkanPendapatanHarian() {
+        System.out.println("\nPendapatan Harian: ");
+        for (int i = 0; i < pendapatanHarian.length; i++) {
+            if (pendapatanHarian[i] > 0) {
+                System.out.println("Hari " + (i + 1) + ": Rp" + pendapatanHarian[i]);
             }
         }
+    }
+    
+    public static void tampilkanPendapatanBulanan() {
+        System.out.println("\nPendapatan Bulanan: ");
+        for (int i = 0; i < pendapatanBulanan.length; i++) {
+            if (pendapatanBulanan[i] > 0) {
+                System.out.println("Bulan " + (i + 1) + ": Rp" + pendapatanBulanan[i]);
+            }
+        }
+    }
+    public static void cetakStrukPembelian(String obat, int totalItemTerjual, int totalPembelian, int totalBayar) {
+        System.out.println("================================");
+        System.out.println("        APOTEK SIB 1C");
+        System.out.println("    Jl. Soekarno Hatta No.9");
+        System.out.println("================================");
+        System.out.println("Obat: " + obat);
+        System.out.println("Jumlah: " + totalItemTerjual); // Menampilkan jumlah obat yang dibeli
+        System.out.println("Total Harga: " + totalPembelian);
+        System.out.println("Total Bayar: Rp" + totalBayar);
+        System.out.println("Total Kembalian: " + (totalBayar - totalPembelian));
     }
 }
