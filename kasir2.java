@@ -13,12 +13,28 @@ public class kasir2 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        // Daftar obat dan harga
-        String[] daftarObat = { "Paracetamol", "Vitamin C", "Antibiotik", "Obat Flu" };
-        int[] hargaObat = { 5000, 10000, 15000, 8000 };
-        // Stok obat
-        int[] stokObat = { 50, 30, 20, 40 }; // Misalnya, stok awal
+         
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Masukkan jumlah obat: ");
+        int jumlahObat = sc.nextInt();
 
+        // Inisialisasi array daftarObat, hargaObat, dan stokObat berdasarkan input pengguna
+        String[] daftarObat = new String[jumlahObat];
+        int[] hargaObat = new int[jumlahObat];
+        int[] stokObat = new int[jumlahObat];
+
+        for (int i = 0; i < jumlahObat; i++) {
+            System.out.println("Masukkan informasi obat ke-" + (i + 1) + ":");
+            System.out.print("Nama obat: ");
+            sc.nextLine(); // Membersihkan buffer
+            daftarObat[i] = sc.nextLine();
+
+            System.out.print("Harga obat: ");
+            hargaObat[i] = sc.nextInt();
+
+            System.out.print("Stok obat: ");
+            stokObat[i] = sc.nextInt();
+        }
         // Riwayat transaksi
         String[] riwayatTransaksi = new String[20]; // Misalnya, menyimpan 10 transaksi terakhir
         int transaksi = 0;
