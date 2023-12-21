@@ -222,11 +222,11 @@ public class kasir2 {
         switch (jenisPembayaran) {
             case 1:
                 // Tambahkan totalPembelian sebagai parameter
-                pembayaran(scanner, 1, totalPembelian, totalHargaPerTransaksi);
+                pembayaran(scanner, 1, totalPembelian, totalHargaPerTransaksi, jenisPembayaran);
                 break;
             case 2:
                 // Tambahkan totalPembelian sebagai parameter
-                pembayaran(scanner, 2, totalPembelian, totalHargaPerTransaksi);
+                pembayaran(scanner, 2, totalPembelian, totalHargaPerTransaksi, jenisPembayaran);
                 break;
             default:
                 System.out.println("Pilihan tidak valid. Mohon pilih 1 untuk tunai atau 2 untuk non-tunai.");
@@ -234,30 +234,30 @@ public class kasir2 {
         }
     }
 
-    // fungsi pembayaran
-    public static void pembayaran(Scanner scanner, int jenisPembayaran, int totalPembelian, int totalHarga) {
+    public static void pembayaran(Scanner scanner, int jenisPembayaran, int totalPembelian, int totalHarga, int totalItemTerjual) {
         System.out.println("Anda telah memilih pembayaran " + (jenisPembayaran == 1 ? "tunai" : "non-tunai"));
         System.out.println("Total Pembelian: Rp" + totalPembelian);
-
+    
         if (jenisPembayaran == 1) {
             System.out.print("Total bayar: Rp");
             int totalBayar = scanner.nextInt();
-
+    
             if (totalBayar < totalPembelian) {
                 System.out.println("Pembayaran kurang. Mohon masukkan jumlah uang yang mencukupi.");
             } else {
                 int kembalian = totalBayar - totalPembelian;
                 System.out.println("Kembalian: Rp" + kembalian);
-                cetakStrukPembelian(obatTerjual, totalHarga, totalPembelian, totalBayar);
+                cetakStrukPembelian(obatTerjual, totalItemTerjual, totalPembelian, totalBayar);
             }
         } else if (jenisPembayaran == 2) {
-            // Logika untuk pembayaran non-tunai
-            System.out.println("Shopeepay");
-            // Tambahkan logika sesuai kebutuhan aplikasi untuk pembayaran non-tunai
-            cetakStrukPembelian(obatTerjual, totalHarga, totalPembelian, 0); // Untuk pembayaran non-tunai
+            // Jika pembayaran non-tunai dan total pembelian sudah dilunasi, maka kembalian adalah 0
+            System.out.println("Pembayaran telah dilunasi.");
+            cetakStrukPembelian(obatTerjual, totalItemTerjual, totalPembelian, totalPembelian); // Total bayar = Total pembelian = 0
+        } else {
+            System.out.println("Pilihan tidak valid.");
         }
     }
-
+    
     // fungsi cek harga obat
     public static void cekHargaObat(Scanner scanner, String[] daftarObat, int[] hargaObat) {
         // Meminta pengguna memasukkan nomor obat untuk cek harga
@@ -312,13 +312,13 @@ public class kasir2 {
 
     }
 
-    public static void cetakStrukPembelian(String obat, int jumlahObat, int totalPembelian, int totalBayar) {
+    public static void cetakStrukPembelian(String obat, int totalItemTerjual, int totalPembelian, int totalBayar) {
         System.out.println("================================");
         System.out.println("        APOTEK SIB 1C");
         System.out.println("    Jl. Soekarno Hatta No.9");
         System.out.println("================================");
         System.out.println("Obat: " + obat);
-        System.out.println("Jumlah: " + jumlahObat);
+        System.out.println("Jumlah: " + totalItemTerjual); // Menampilkan jumlah obat yang dibeli
         System.out.println("Total Harga: " + totalPembelian);
         System.out.println("Total Bayar: Rp" + totalBayar);
         System.out.println("Total Kembalian: " + (totalBayar - totalPembelian));
@@ -334,9 +334,7 @@ public class kasir2 {
 
     do {
         System.out.println("\nPilih menu Analisis Laporan Keuangan:");
-        System.out.println("1. Pendapatan Harian");
-        System.out.println("2. Pendapatan Bulanan");
-        System.out.println("Kembali ke menu sebelumnya");
+        System.out.println("1. Pendapatan Harian\n2. Pendapatan Bulanan\n3. Kembali ke menu sebelumnya");
         System.out.print("Masukkan pilihan Anda (1/2/3): ");
         int menuChoice = scanner.nextInt();
 
