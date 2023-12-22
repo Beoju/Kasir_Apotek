@@ -359,4 +359,5 @@ public class coba {
         System.out.println("Total Bayar: Rp" + totalBayar);
         System.out.println("Total Kembalian: " + (totalBayar - totalPembelian));
     }
+    
 }
