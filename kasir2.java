@@ -5,27 +5,40 @@ public class kasir2 {
     public static int totalItemTerjual = 0;
     public static int totalPenjualan = 0;
     public static String obatTerjual = "";
+    public static int totalHarga = 0;
     // untuk laporan
     private static int[] pendapatanHarian = new int[31];
     private static int[] pendapatanBulanan = new int[12];
+    private static int[] jumlahObatTerbeli = new int[20];
     private static LocalDate currentDate = LocalDate.now();
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        // Daftar obat dan harga
-        String[] daftarObat = { "Paracetamol", "Vitamin C", "Antibiotik", "Obat Flu" };
-        int[] hargaObat = { 5000, 10000, 15000, 8000 };
-        // Stok obat
-        int[] stokObat = { 50, 30, 20, 40 }; // Misalnya, stok awal
+        System.out.print("Masukkan jumlah obat: ");
+        int jumlahObat = scanner.nextInt();
+
+        // Inisialisasi array daftarObat, hargaObat, dan stokObat berdasarkan input pengguna
+        String[] daftarObat = new String[jumlahObat];
+        int[] hargaObat = new int[jumlahObat];
+        int[] stokObat = new int[jumlahObat];
+
+        for (int i = 0; i < jumlahObat; i++) {
+            System.out.println("Masukkan informasi obat ke-" + (i + 1) + ":");
+            System.out.print("Nama obat: ");
+            scanner.nextLine(); // Membersihkan buffer
+            daftarObat[i] = scanner.nextLine();
+
+            System.out.print("Harga obat: ");
+            hargaObat[i] = scanner.nextInt();
+
+            System.out.print("Stok obat: ");
+            stokObat[i] = scanner.nextInt();
+        }
 
         // Riwayat transaksi
         String[] riwayatTransaksi = new String[20]; // Misalnya, menyimpan 10 transaksi terakhir
         int transaksi = 0;
-
-        // Variabel totalHarga perlu diinisialisasi di luar loop
-        int totalHarga = 0;
-        double diskon = 0.0;
 
         do {
             // Meminta pengguna memilih menu
@@ -61,58 +74,21 @@ public class kasir2 {
         for (int i = 0; i < daftarObat.length; i++) {
             System.out.println((i + 1) + ". " + daftarObat[i] + " - Rp" + hargaObat[i]);
         }
-
-        System.out.print("\nApakah Anda ingin menambahkan obat baru? (y/t): ");
-        String tambahObatBaru = scanner.next();
-
-        if (tambahObatBaru.equalsIgnoreCase("y")) {
-            System.out.print("Masukkan nama obat baru: ");
-            scanner.nextLine();
-            String namaObatBaru = scanner.nextLine();
-
-            System.out.print("Masukkan harga obat baru: ");
-            int hargaObatBaru = scanner.nextInt();
-
-            tambahObatBaru(daftarObat, hargaObat, namaObatBaru, hargaObatBaru);
-            System.out.println("Obat baru berhasil ditambahkan!");
-
-            System.out.println("\nDaftar Obat dan Harga (Termasuk Obat Baru):");
-            for (int i = 0; i < daftarObat.length; i++) {
-                System.out.println((i + 1) + ". " + daftarObat[i] + " - Rp" + hargaObat[i]);
-            }
-        }
-    }
-
-    // Fungsi untuk menambah obat baru ke daftar obat dan harga
-    public static void tambahObatBaru(String[] daftarObat, int[] hargaObat, String namaObatBaru, int hargaObatBaru) {
-        String[] tempDaftarObat = new String[daftarObat.length + 1];
-        int[] tempHargaObat = new int[hargaObat.length + 1];
-
-        for (int i = 0; i < daftarObat.length; i++) {
-            tempDaftarObat[i] = daftarObat[i];
-            tempHargaObat[i] = hargaObat[i];
-        }
-
-        tempDaftarObat[daftarObat.length] = namaObatBaru;
-        tempHargaObat[hargaObat.length] = hargaObatBaru;
-
-        daftarObat = tempDaftarObat;
-        hargaObat = tempHargaObat;
     }
 
     public static void menuKasir(Scanner scanner, String[] daftarObat, int[] hargaObat, String[] riwayatTransaksi,
-            int transaksi, int[] stokObat) {
+        int transaksi, int[] stokObat) {
         boolean tambahItem = true;
 
         while (tambahItem) {
-            System.out.println("\nPilih menu Kasir:\n1. Beli Obat\n2. Cek Harga Obat\n3. Cek Stok Obat\n4. Daftar Obat");
-            System.out.print("Masukkan pilihan Anda (1/2/3): ");
+            System.out.println("\nPilih menu Kasir:\n1. Beli Obat\n2. Cek Harga Obat\n3. Cek Stok Obat\n4. Daftar Obat\n5. Riwayat Transaksi");
+            System.out.print("Masukkan pilihan Anda (1/2/3/4/5): ");
             int kasirChoice = scanner.nextInt();
 
             switch (kasirChoice) {
                 case 1:
-                    beliObat(scanner, daftarObat, hargaObat, riwayatTransaksi, transaksi, transaksi, kasirChoice,
-                            stokObat);
+                    beliObat(scanner, daftarObat, hargaObat, riwayatTransaksi, transaksi, transaksi, stokObat);
+                    transaksi++;
                     break;
                 case 2:
                     cekHargaObat(scanner, daftarObat, hargaObat);
@@ -121,6 +97,9 @@ public class kasir2 {
                     cekStokObat(daftarObat, stokObat, kasirChoice);
                 case 4:
                     lihatDaftarObat(scanner, daftarObat, hargaObat);
+                    break;
+                case 5 :
+                    tampilkanRiwayatTransaksi(riwayatTransaksi, transaksi);
                     break;
                 default:
                     System.out.println("Pilihan tidak valid");
@@ -131,8 +110,7 @@ public class kasir2 {
         }
     }
 
-    public static void beliObat(Scanner scanner, String[] daftarObat, int[] hargaObat, String[] riwayatTransaksi,
-            int transaksi, int totalHarga, double diskon, int[] stokObat) {
+    public static void beliObat(Scanner scanner, String[] daftarObat, int[] hargaObat, String[] riwayatTransaksi, int transaksi, int totalHarga, int[] stokObat) {
         boolean tambahItem = true;
         int totalHargaPerTransaksi = 0;
 
@@ -158,11 +136,10 @@ public class kasir2 {
             int jumlahObat = scanner.nextInt();
             int hargaSatuan = hargaObat[nomorObat - 1];
             int totalHargaObat = hargaSatuan * jumlahObat;
+            jumlahObatTerbeli[transaksi] = jumlahObat;
 
             // Menambahkan informasi pembelian ke riwayatTransaksi
-            riwayatTransaksi[transaksi] = "Obat: " + daftarObat[nomorObat - 1] +
-                    ", Jumlah: " + jumlahObat +
-                    ", Total Harga: Rp" + totalHargaObat;
+            riwayatTransaksi[transaksi] = "Obat: " + daftarObat[nomorObat - 1] + ", Jumlah: " + jumlahObat + ", Total Harga: Rp" + totalHargaObat;
             transaksi++;
 
             // Menyimpan informasi obat yang terjual
@@ -187,11 +164,12 @@ public class kasir2 {
             stokObat[nomorObat - 1] -= jumlahObat;
 
             int hariIni = currentDate.getDayOfMonth();
-            pendapatanHarian[hariIni - 1] += totalHarga;
+            pendapatanHarian[hariIni - 1] += totalHargaObat;
 
             // Simpan pendapatan bulanan
             int bulanIni = currentDate.getMonthValue();
-            pendapatanBulanan[bulanIni - 1] += totalHarga;
+            pendapatanBulanan[bulanIni - 1] += totalHargaObat;
+
 
             // Menanyakan apakah pengguna ingin menambah item lagi
             System.out.print("\nApakah Anda ingin menambah item lagi? (y/t): ");
@@ -204,14 +182,6 @@ public class kasir2 {
 
         // Hitung total pembelian, total bayar, dan kembalian
         int totalPembelian = totalHarga;
-        if (totalPembelian > 50000) {
-            System.out.print("Masukkan diskon (dalam persen): ");
-            double discon = scanner.nextDouble();
-            System.out.println("Anda mendapatkan diskon sebesar " + discon + "%");
-            totalPembelian -= totalPembelian * (discon / 100);
-        } else {
-            System.out.println("Maaf, Anda tidak mendapatkan diskon.");
-        }
         System.out.print("Pilih jenis pembayaran:\n1. Tunai\n2. Non-Tunai\nMasukkan pilihan Anda (1/2): ");
         int jenisPembayaran = scanner.nextInt();
 
@@ -244,7 +214,6 @@ public class kasir2 {
             } else {
                 int kembalian = totalBayar - totalPembelian;
                 System.out.println("Kembalian: Rp" + kembalian);
-                cetakStrukPembelian(obatTerjual, totalHarga, totalPembelian, totalBayar);
                 cetakStrukPembelian(obatTerjual, totalItemTerjual, totalPembelian, totalBayar);
             }
         } else if (jenisPembayaran == 2) {
@@ -276,6 +245,11 @@ public class kasir2 {
         System.out.println("\nStok Obat yang Tersedia:");
         for (int i = 0; i < daftarObat.length; i++) {
             System.out.println(daftarObat[i] + ": " + stokObat[i]);
+
+            // Tambahkan keterangan penjualan
+        if (jumlahObatTerbeli[i] > 0) {
+            System.out.println("Keterangan Penjualan: " + jumlahObatTerbeli[i] + " item obat terjual.");
+            }
         }
     }
 
@@ -284,18 +258,15 @@ public class kasir2 {
         boolean kembaliKeMenuSebelumnya = true;
 
         do {
-            System.out.println("\nPilih menu Manajer:\n1. Riwayat Transaksi\n2. Analisis Laporan Keuangan\n3. Menu sebelumnya");
-            System.out.print("Masukkan pilihan anda (1/2/3): ");
+            System.out.println("\nPilih menu Manajer:\n1.  Analisis Laporan Keuangan\n2. Menu sebelumnya");
+            System.out.print("Masukkan pilihan anda (1/2): ");
             int manajerChoice = scanner.nextInt();
 
             switch (manajerChoice) {
                 case 1:
-                    tampilkanRiwayatTransaksi(riwayatTransaksi, transaksi);
-                    break;
-                case 2:
                     laporanKeuangan();
                     break;
-                case 3:
+                case 2:
                     kembaliKeMenuSebelumnya = false;
                 default:
                     break;
@@ -308,8 +279,6 @@ public class kasir2 {
         } while (kembaliKeMenuSebelumnya);
 
     }
-
-    
 
     public static void tampilkanRiwayatTransaksi(String[] riwayatTransaksi, int transaksi) {
         System.out.println("\nLaporan Transaksi:");
@@ -380,4 +349,5 @@ public class kasir2 {
         System.out.println("Total Bayar: Rp" + totalBayar);
         System.out.println("Total Kembalian: " + (totalBayar - totalPembelian));
     }
+    
 }
