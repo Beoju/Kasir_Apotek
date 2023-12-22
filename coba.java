@@ -83,8 +83,8 @@ public class coba {
         boolean tambahItem = true;
 
         while (tambahItem) {
-            System.out.println("\nPilih menu Kasir:\n1. Beli Obat\n2. Cek Harga Obat\n3. Cek Stok Obat\n4. Daftar Obat");
-            System.out.print("Masukkan pilihan Anda (1/2/3): ");
+            System.out.println("\nPilih menu Kasir:\n1. Beli Obat\n2. Cek Harga Obat\n3. Cek Stok Obat\n4. Daftar Obat\n5. Riwayat Transaksi");
+            System.out.print("Masukkan pilihan Anda (1/2/3/4/5): ");
             int kasirChoice = scanner.nextInt();
 
             switch (kasirChoice) {
@@ -100,6 +100,8 @@ public class coba {
                 case 4:
                     lihatDaftarObat(scanner, daftarObat, hargaObat);
                     break;
+                case 5 :
+                    tampilkanRiwayatTransaksi(riwayatTransaksi, transaksi);
                 default:
                     System.out.println("Pilihan tidak valid");
                     break;
@@ -223,7 +225,6 @@ public class coba {
             } else {
                 int kembalian = totalBayar - totalPembelian;
                 System.out.println("Kembalian: Rp" + kembalian);
-                cetakStrukPembelian(obatTerjual, totalHarga, totalPembelian, totalBayar);
                 cetakStrukPembelian(obatTerjual, totalItemTerjual, totalPembelian, totalBayar);
             }
         } else if (jenisPembayaran == 2) {
@@ -255,6 +256,11 @@ public class coba {
         System.out.println("\nStok Obat yang Tersedia:");
         for (int i = 0; i < daftarObat.length; i++) {
             System.out.println(daftarObat[i] + ": " + stokObat[i]);
+
+            // Tambahkan keterangan penjualan
+        if (jumlahObatTerbeli[i] > 0) {
+            System.out.println("Keterangan Penjualan: " + jumlahObatTerbeli[i] + " item obat terjual.");
+            }
         }
     }
 
@@ -263,18 +269,15 @@ public class coba {
         boolean kembaliKeMenuSebelumnya = true;
 
         do {
-            System.out.println("\nPilih menu Manajer:\n1. Riwayat Transaksi\n2. Analisis Laporan Keuangan\n3. Menu sebelumnya");
-            System.out.print("Masukkan pilihan anda (1/2/3): ");
+            System.out.println("\nPilih menu Manajer:\n1.  Analisis Laporan Keuangan\n2. Menu sebelumnya");
+            System.out.print("Masukkan pilihan anda (1/2): ");
             int manajerChoice = scanner.nextInt();
 
             switch (manajerChoice) {
                 case 1:
-                    tampilkanRiwayatTransaksi(riwayatTransaksi, transaksi);
-                    break;
-                case 2:
                     laporanKeuangan();
                     break;
-                case 3:
+                case 2:
                     kembaliKeMenuSebelumnya = false;
                 default:
                     break;
@@ -287,8 +290,6 @@ public class coba {
         } while (kembaliKeMenuSebelumnya);
 
     }
-
-    
 
     public static void tampilkanRiwayatTransaksi(String[] riwayatTransaksi, int transaksi) {
         System.out.println("\nLaporan Transaksi:");
