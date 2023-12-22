@@ -5,6 +5,7 @@ public class coba {
     public static int totalItemTerjual = 0;
     public static int totalPenjualan = 0;
     public static String obatTerjual = "";
+    public static int totalHarga = 0;
     // untuk laporan
     private static int[] pendapatanHarian = new int[31];
     private static int[] pendapatanBulanan = new int[12];
@@ -38,9 +39,6 @@ public class coba {
         // Riwayat transaksi
         String[] riwayatTransaksi = new String[20]; // Misalnya, menyimpan 10 transaksi terakhir
         int transaksi = 0;
-
-        // Variabel totalHarga perlu diinisialisasi di luar loop
-        int totalHarga = 0;
 
         do {
             // Meminta pengguna memilih menu
@@ -79,7 +77,7 @@ public class coba {
     }
 
     public static void menuKasir(Scanner scanner, String[] daftarObat, int[] hargaObat, String[] riwayatTransaksi,
-            int transaksi, int[] stokObat) {
+        int transaksi, int[] stokObat) {
         boolean tambahItem = true;
 
         while (tambahItem) {
@@ -102,6 +100,7 @@ public class coba {
                     break;
                 case 5 :
                     tampilkanRiwayatTransaksi(riwayatTransaksi, transaksi);
+                    break;
                 default:
                     System.out.println("Pilihan tidak valid");
                     break;
@@ -111,8 +110,7 @@ public class coba {
         }
     }
 
-    public static void beliObat(Scanner scanner, String[] daftarObat, int[] hargaObat, String[] riwayatTransaksi,
-            int transaksi, int totalHarga, double diskon, int[] stokObat) {
+    public static void beliObat(Scanner scanner, String[] daftarObat, int[] hargaObat, String[] riwayatTransaksi, int transaksi, int totalHarga, double diskon, int[] stokObat) {
         boolean tambahItem = true;
         int totalHargaPerTransaksi = 0;
 
@@ -141,9 +139,7 @@ public class coba {
             jumlahObatTerbeli[transaksi] = jumlahObat;
 
             // Menambahkan informasi pembelian ke riwayatTransaksi
-            riwayatTransaksi[transaksi] = "Obat: " + daftarObat[nomorObat - 1] +
-                    ", Jumlah: " + jumlahObat +
-                    ", Total Harga: Rp" + totalHargaObat;
+            riwayatTransaksi[transaksi] = "Obat: " + daftarObat[nomorObat - 1] + ", Jumlah: " + jumlahObat + ", Total Harga: Rp" + totalHargaObat;
             transaksi++;
 
             // Menyimpan informasi obat yang terjual
